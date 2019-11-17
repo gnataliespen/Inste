@@ -1,0 +1,21 @@
+html,
+body,
+.app {
+  height: 100vh;
+  background: #202040;
+  padding: 1em;
+}
+
+:root {
+  --bodyBg: #090057;
+  --p-dark: #202060;
+  --p-light: #602080;
+  --orange: #b030b0;
+}
+
+.ui.center.aligned.header {
+  color: var(--orange);
+}
+.ui.stacked.segment {
+  background-color: var(--p-dark);
+}
