@@ -8,6 +8,11 @@ import Login from "./Components/Auth/Login";
 import Register from "./Components/Auth/Register";
 import Signout from "./Components/Auth/Signout";
 
+//Redux
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import { setUser } from "./redux/actions/index";
+
 import "semantic-ui-css/semantic.min.css";
 import "./App.css";
 
@@ -16,20 +21,23 @@ const App = () => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        store.dispatch(setUser(user));
         history.push("/chat");
       }
     });
   }, [history]);
 
   return (
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/chat" component={Chat} />
+    <Provider store={store}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/chat" component={Chat} />
 
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/register" component={Register} />
-      <Route exact path="/signout" component={Signout} />
-    </Switch>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/signout" component={Signout} />
+      </Switch>
+    </Provider>
   );
 };
 
