@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import firebase from "../../firebase";
 import {
   Grid,
   Form,
@@ -8,8 +9,6 @@ import {
   Button,
   Message
 } from "semantic-ui-react";
-
-import api from "../../util/apiConnection";
 
 const initialState = {
   email: "",
@@ -30,18 +29,24 @@ const Login = () => {
     return !email.trim() || !password.trim();
   };
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault();
     setLoading(true);
     const { password, email } = login;
-    console.log(login);
-    setLogin(initialState);
+    try {
+      const res = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+      setLogin(initialState);
+    } catch (err) {
+      console.log(err);
+    }
     setLoading(false);
   };
   return (
     <Grid textAlign="center" verticalAlign="middle" className="app">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" textAlign="center">
+        <Header as="h1" textAlign="center">
           Login
         </Header>
         <Form size="large" onSubmit={onSubmit} loading={loading}>

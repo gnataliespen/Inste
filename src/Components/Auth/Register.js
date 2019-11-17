@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import md5 from "md5";
 import {
   Grid,
   Form,
@@ -9,7 +10,7 @@ import {
   Message
 } from "semantic-ui-react";
 
-import api from "../../util/apiConnection";
+import firebase from "../../firebase";
 
 const initialState = {
   username: "",
@@ -40,22 +41,40 @@ const Register = () => {
     const { conPass, password, username, email } = registration;
     if (password !== conPass) {
       console.log("Passwords do not match");
+      setLoading(false);
+
       return;
     }
     try {
-      console.log(registration);
-      const res = await api.post("/auth/signup", registration);
+      const createdUser = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+      await createdUser.user.updateProfile({
+        displayName: username,
+        photoURL: `http://gravatar.com/avatar/${md5(email)}?d=identicon`
+      });
+      await saveUser(createdUser.user);
       setRegistration(initialState);
-      console.log(res);
     } catch (err) {
       console.log(err.response);
     }
     setLoading(false);
   };
+  const saveUser = async user => {
+    await firebase
+      .database()
+      .ref("users")
+      .child(user.uid)
+      .set({
+        name: user.displayName,
+        avatar: user.photoURL
+      });
+    console.log("saved");
+  };
   return (
     <Grid textAlign="center" verticalAlign="middle" className="app">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" icon color="orange" textAlign="center">
+        <Header as="h1" icon color="orange" textAlign="center">
           Register
         </Header>
         <Form size="large" onSubmit={onSubmit} loading={loading}>
