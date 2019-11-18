@@ -4,7 +4,7 @@ import { Menu } from "semantic-ui-react";
 import UserPanel from "./UserPanel";
 import Channels from "./Channels";
 
-const SidePanel = ({ currentUser }) => {
+const SidePanel = ({ currentUser, setCurrentChannel }) => {
   return (
     <Menu
       size="large"
@@ -14,7 +14,7 @@ const SidePanel = ({ currentUser }) => {
       style={{ background: "#4c3c4c" }}
     >
       <UserPanel currentUser={currentUser} />
-      <Channels />
+      <Channels setCurrentChannel={setCurrentChannel} />
     </Menu>
   );
 };

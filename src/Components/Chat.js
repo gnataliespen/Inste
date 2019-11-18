@@ -1,17 +1,21 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
+import { setCurrentChannel } from "../redux/actions/index";
 
 import ColorPanel from "./ColorPanel/ColorPanel";
 import SidePanel from "./SidePanel/SidePanel";
 import Messages from "./Messages/Messages";
 import MetaPanel from "./MetaPanel/MetaPanel";
 
-const Chat = ({ currentUser }) => {
+const Chat = ({ currentUser, setCurrentChannel }) => {
   return (
     <Grid columns="equal" className="app">
       <ColorPanel />
-      <SidePanel currentUser={currentUser} />
+      <SidePanel
+        setCurrentChannel={setCurrentChannel}
+        currentUser={currentUser}
+      />
 
       <Grid.Column style={{ marginLeft: 320 }}>
         <Messages />
@@ -27,4 +31,4 @@ const Chat = ({ currentUser }) => {
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser
 });
-export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps, { setCurrentChannel })(Chat);

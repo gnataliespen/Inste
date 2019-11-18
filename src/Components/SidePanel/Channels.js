@@ -6,7 +6,7 @@ const initialForm = {
   channelName: "",
   channelDetails: ""
 };
-const Channels = () => {
+const Channels = ({ setCurrentChannel }) => {
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState(initialForm);
   const [channels, setChannels] = useState([]);
@@ -32,7 +32,7 @@ const Channels = () => {
     channels.map(channel => (
       <Menu.Item
         key={channel.id}
-        onClick={() => console.log(channel)}
+        onClick={() => setCurrentChannel(channel)}
         name={channel.name}
         style={{ opacity: 0.7 }}
       >
