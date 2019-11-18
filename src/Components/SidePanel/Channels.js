@@ -10,11 +10,23 @@ const Channels = ({ setCurrentChannel }) => {
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState(initialForm);
   const [channels, setChannels] = useState([]);
+  const [activeChannel, setActiveChannel] = useState("");
 
   useEffect(() => {
     addListeners();
-    return () => {};
+    return () => {
+      firebase
+        .database()
+        .ref("channels")
+        .off();
+    };
   }, []);
+
+  const firstLoad = () => {
+    if (!activeChannel && channels.length > 0) {
+      changeChannel(channels[0]);
+    }
+  };
 
   const addListeners = () => {
     let loadedChannels = [];
@@ -27,14 +39,20 @@ const Channels = ({ setCurrentChannel }) => {
       });
   };
 
+  const changeChannel = channel => {
+    setActiveChannel(channel.id);
+    setCurrentChannel(channel);
+  };
+
   const displayChannels = channels =>
     channels.length > 0 &&
     channels.map(channel => (
       <Menu.Item
         key={channel.id}
-        onClick={() => setCurrentChannel(channel)}
+        onClick={() => changeChannel(channel)}
         name={channel.name}
         style={{ opacity: 0.7 }}
+        active={channel.id === activeChannel}
       >
         # {channel.name}
       </Menu.Item>
@@ -51,6 +69,8 @@ const Channels = ({ setCurrentChannel }) => {
     setForm({ ...form, [name]: value });
   };
 
+  firstLoad();
+
   return (
     <Fragment>
       <Menu.Menu style={{ paddingBottom: "2em" }}>
@@ -60,7 +80,6 @@ const Channels = ({ setCurrentChannel }) => {
           </span>
           ({channels.length}) <Icon name="add" onClick={openModal} />
         </Menu.Item>
-        {console.log(channels.channels)}
         {displayChannels(channels)}
       </Menu.Menu>
       <Modal basic open={modal} onClose={closeModal}>

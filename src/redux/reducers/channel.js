@@ -1,8 +1,4 @@
-import {
-  SET_CURRENT_CHANNEL,
-  SET_PRIVATE_CHANNEL,
-  SET_USER_POSTS
-} from "../actions/types";
+import { SET_CURRENT_CHANNEL } from "../actions/types";
 
 const initialChannelState = {
   currentChannel: null,
