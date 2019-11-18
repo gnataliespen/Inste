@@ -34,7 +34,6 @@ const Register = () => {
       !username.trim() || !email.trim() || !password.trim() || !conPass.trim()
     );
   };
-
   const onSubmit = async event => {
     event.preventDefault();
     setLoading(true);
