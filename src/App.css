@@ -2,7 +2,7 @@ html,
 body,
 .app {
   height: 100vh;
-  background: #202040;
+  background: #eee;
   padding: 1em;
 }
 
@@ -11,11 +11,4 @@ body,
   --p-dark: #202060;
   --p-light: #602080;
   --orange: #b030b0;
-}
-
-.ui.center.aligned.header {
-  color: var(--orange);
-}
-.ui.stacked.segment {
-  background-color: var(--p-dark);
 }
