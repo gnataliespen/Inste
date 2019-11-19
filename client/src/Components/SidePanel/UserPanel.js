@@ -10,12 +10,13 @@ import {
   Input,
   Button
 } from "semantic-ui-react";
+import Cookies from "js-cookie";
 
 const initialForm = {
   channelName: "",
   channelDetails: ""
 };
-const UserPanel = ({ user }) => {
+const UserPanel = ({ currentUser, logout, socket }) => {
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState(initialForm);
 
@@ -24,7 +25,7 @@ const UserPanel = ({ user }) => {
       key: "user",
       text: (
         <span>
-          Signed in as <strong>{user.username}</strong>
+          Signed in as <strong>{currentUser.username}</strong>
         </span>
       ),
       disabled: true
@@ -39,7 +40,7 @@ const UserPanel = ({ user }) => {
     },
     {
       key: "signout",
-      text: <span onClick={onSignout}>Signout</span>
+      text: <span onClick={logout}>Signout</span>
     }
   ];
 
@@ -49,8 +50,6 @@ const UserPanel = ({ user }) => {
     setModal(false);
   };
 
-  const onSignout = async () => {};
-
   const handleChange = event => {
     const { name, value } = event.target;
     setForm({ ...form, [name]: value });
@@ -59,6 +58,7 @@ const UserPanel = ({ user }) => {
   const handleCreate = async event => {
     event.preventDefault();
     const { channelName, channelDetails } = form;
+    let token = Cookies.get("token");
 
     try {
       closeModal();
@@ -88,8 +88,8 @@ const UserPanel = ({ user }) => {
             <Dropdown
               trigger={
                 <span>
-                  <Image src={user.avatar} spaced="right" avatar />
-                  {user.username}
+                  <Image src={currentUser.avatar} spaced="right" avatar />
+                  {currentUser.username}
                 </span>
               }
               options={dropdownOptions()}

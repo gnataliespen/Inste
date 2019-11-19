@@ -14,9 +14,8 @@ import {
 //Load User
 export const loadUser = () => async dispatch => {
   const token = Cookies.get("token");
-  if (token) {
-    setAuthToken(token);
-  }
+  setAuthToken(token);
+
   console.log(token);
   try {
     const res = await api.get("/auth");

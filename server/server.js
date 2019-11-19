@@ -6,7 +6,9 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const http = require("http");
 const socketio = require("socket.io");
-const authRouther = require("./routes/authRouter");
+const authRouter = require("./routes/authRouter");
+const socketController = require("./controllers/socketController");
+
 const app = express();
 const server = http.createServer(app);
 io = socketio(server);
@@ -20,10 +22,17 @@ app.use(cookieParser());
 dotenv.config();
 app.use(cors());
 
-app.use("/auth", authRouther);
+app.use("/auth", authRouter);
 //Socket
 io.on("connection", socket => {
   console.log("connected");
+  socket.on("create channel", async channelObj => {
+    console.log(channelObj);
+    let newChannel = await socketController.createChanel(channelObj);
+    if (newChannel) {
+      io.emit("new channel", newChannel);
+    }
+  });
 });
 
 const { port } = require("./config/config");

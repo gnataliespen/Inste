@@ -12,9 +12,6 @@ const ChannelSchema = new Schema(
       type: String,
       required: true
     },
-    password: {
-      type: String
-    },
     users: [
       {
         type: ObjectId,
@@ -30,4 +27,4 @@ const ChannelSchema = new Schema(
     timestamps: true
   }
 );
-module.exports = mongoose.model("User", ChannelSchema);
+module.exports = mongoose.model("Channel", ChannelSchema);

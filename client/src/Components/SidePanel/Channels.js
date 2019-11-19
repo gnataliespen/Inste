@@ -1,11 +1,11 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 
 const initialForm = {
   channelName: "",
   channelDetails: ""
 };
-const Channels = ({ setCurrentChannel, user }) => {
+const Channels = ({ setCurrentChannel, currentUser }) => {
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState(initialForm);
   const [activeChannel, setActiveChannel] = useState("");
@@ -15,7 +15,7 @@ const Channels = ({ setCurrentChannel, user }) => {
       changeChannel(channels[0]);
     }
   };*/
-  console.log(user);
+  console.log(currentUser);
 
   const changeChannel = channel => {
     setActiveChannel(channel.id);
@@ -54,10 +54,10 @@ const Channels = ({ setCurrentChannel, user }) => {
           <span>
             <Icon name="exchange" /> CHANNELS{" "}
           </span>
-          ({/*user.joinedChannels.length */})0{" "}
+          ({currentUser.joinedChannels.length}){" "}
           <Icon name="add" onClick={openModal} />
         </Menu.Item>
-        {displayChannels(user.joinedChannels || [])}
+        {displayChannels(currentUser.joinedChannels || [])}
       </Menu.Menu>
       <Modal basic open={modal} onClose={closeModal}>
         <Modal.Header>Add a Channel</Modal.Header>

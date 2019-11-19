@@ -20,14 +20,14 @@ export default (state = initialUserState, action) => {
     case USER_LOADED:
       return {
         ...state,
-        user: payload,
+        currentUser: payload,
         isAuth: true,
         loading: false
       };
     case CLEAR_USER:
       return {
         ...state,
-        user: {},
+        currentUser: null,
         isAuth: false,
         loading: true
       };
@@ -41,12 +41,13 @@ export default (state = initialUserState, action) => {
     case AUTH_ERROR:
     case LOGOUT:
       Cookies.remove("token");
+      console.log("hey");
       return {
         ...state,
         token: null,
         isAuth: false,
         loading: false,
-        user: null
+        currentUser: null
       };
     default:
       return state;

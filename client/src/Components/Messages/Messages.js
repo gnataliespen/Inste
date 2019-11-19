@@ -39,7 +39,7 @@ const Messages = ({ currentChannel, user }) => {
     },
     {
       content: "adsdadsaa",
-      timestamp: 1574149154470,
+      timestamp: 1574149154475,
       user: {
         avatar:
           "http://gravatar.com/avatar/a13cf70aacb36fd2595f62ef51a3d02f?d=identicon",
