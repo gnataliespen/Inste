@@ -1,43 +1,21 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
-import firebase from "../../firebase";
 
 const initialForm = {
   channelName: "",
   channelDetails: ""
 };
-const Channels = ({ setCurrentChannel }) => {
+const Channels = ({ setCurrentChannel, user }) => {
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState(initialForm);
-  const [channels, setChannels] = useState([]);
   const [activeChannel, setActiveChannel] = useState("");
 
-  useEffect(() => {
-    addListeners();
-    return () => {
-      firebase
-        .database()
-        .ref("channels")
-        .off();
-    };
-  }, []);
-
-  const firstLoad = () => {
+  /*const firstLoad = () => {
     if (!activeChannel && channels.length > 0) {
       changeChannel(channels[0]);
     }
-  };
-
-  const addListeners = () => {
-    let loadedChannels = [];
-    firebase
-      .database()
-      .ref("channels")
-      .on("child_added", snap => {
-        loadedChannels.push(snap.val());
-        setChannels([...loadedChannels]);
-      });
-  };
+  };*/
+  console.log(user);
 
   const changeChannel = channel => {
     setActiveChannel(channel.id);
@@ -69,8 +47,6 @@ const Channels = ({ setCurrentChannel }) => {
     setForm({ ...form, [name]: value });
   };
 
-  firstLoad();
-
   return (
     <Fragment>
       <Menu.Menu style={{ paddingBottom: "2em" }}>
@@ -78,9 +54,10 @@ const Channels = ({ setCurrentChannel }) => {
           <span>
             <Icon name="exchange" /> CHANNELS{" "}
           </span>
-          ({channels.length}) <Icon name="add" onClick={openModal} />
+          ({/*user.joinedChannels.length */})0{" "}
+          <Icon name="add" onClick={openModal} />
         </Menu.Item>
-        {displayChannels(channels)}
+        {displayChannels(user.joinedChannels || [])}
       </Menu.Menu>
       <Modal basic open={modal} onClose={closeModal}>
         <Modal.Header>Add a Channel</Modal.Header>

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Segment, Comment } from "semantic-ui-react";
 
-import firebase from "../../firebase";
 import MessagesHeader from "./MessagesHeader";
 import MessageForm from "./MessageForm";
 import Message from "./Message";
 
-const Messages = ({ currentChannel, currentUser }) => {
+const Messages = ({ currentChannel, user }) => {
   const [messages, setMessages] = useState([
     {
       content: "adsda",
@@ -50,13 +49,9 @@ const Messages = ({ currentChannel, currentUser }) => {
     }
   ]);
 
-  const messagesRef = firebase.database().ref("messages");
-
   const displayMessages = msgs =>
     msgs.length > 0 &&
-    msgs.map(msg => (
-      <Message key={msg.timestamp} message={msg} user={currentUser} />
-    ));
+    msgs.map(msg => <Message key={msg.timestamp} message={msg} user={user} />);
 
   return (
     <React.Fragment>
@@ -68,11 +63,7 @@ const Messages = ({ currentChannel, currentUser }) => {
         </Comment.Group>
       </Segment>
 
-      <MessageForm
-        messagesRef={messagesRef}
-        currentChannel={currentChannel}
-        currentUser={currentUser}
-      />
+      <MessageForm currentChannel={currentChannel} user={user} />
     </React.Fragment>
   );
 };

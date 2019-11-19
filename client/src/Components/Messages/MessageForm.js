@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Segment, Button, Input } from "semantic-ui-react";
-import firebase from "../../firebase";
 
-const MessageForm = ({ messagesRef, currentChannel, currentUser }) => {
+const MessageForm = ({ messagesRef, currentChannel, user }) => {
   const [msg, setMsg] = useState("");
 
   const handleChange = event => {
@@ -10,15 +9,10 @@ const MessageForm = ({ messagesRef, currentChannel, currentUser }) => {
   };
 
   const createMsg = () => {
-    console.log(currentUser.photoUrl);
+    console.log(user.avatar);
     const message = {
       content: msg,
-      timestamp: firebase.database.ServerValue.TIMESTAMP,
-      user: {
-        id: currentUser.uid,
-        name: currentUser.displayName,
-        avatar: currentUser.photoURL
-      }
+      user: user._id
     };
     return message;
   };

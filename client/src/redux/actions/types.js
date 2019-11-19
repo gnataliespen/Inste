@@ -1,5 +1,4 @@
 /* USER ACTION TYPES */
-export const SET_USER = "SET_USER";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const USER_LOADED = "USER_LOADED";
 export const CLEAR_USER = "CLEAR_USER";

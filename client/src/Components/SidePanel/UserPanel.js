@@ -11,13 +11,11 @@ import {
   Button
 } from "semantic-ui-react";
 
-import firebase from "../../firebase";
-
 const initialForm = {
   channelName: "",
   channelDetails: ""
 };
-const UserPanel = ({ currentUser }) => {
+const UserPanel = ({ user }) => {
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState(initialForm);
 
@@ -26,7 +24,7 @@ const UserPanel = ({ currentUser }) => {
       key: "user",
       text: (
         <span>
-          Signed in as <strong>{currentUser.displayName}</strong>
+          Signed in as <strong>{user.username}</strong>
         </span>
       ),
       disabled: true
@@ -51,9 +49,7 @@ const UserPanel = ({ currentUser }) => {
     setModal(false);
   };
 
-  const onSignout = async () => {
-    firebase.auth().signOut();
-  };
+  const onSignout = async () => {};
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -63,29 +59,8 @@ const UserPanel = ({ currentUser }) => {
   const handleCreate = async event => {
     event.preventDefault();
     const { channelName, channelDetails } = form;
-    console.log(firebase.database().ref("channels"));
+
     try {
-      const key = firebase
-        .database()
-        .ref("channels")
-        .push().key;
-
-      const newChannel = {
-        id: key,
-        name: channelName,
-        details: channelDetails,
-        createdBy: {
-          name: currentUser.displayName,
-          avatar: currentUser.photoURL
-        }
-      };
-
-      await firebase
-        .database()
-        .ref("channels")
-        .child(key)
-        .update(newChannel);
-
       closeModal();
       console.log("channel added ");
     } catch (err) {
@@ -113,8 +88,8 @@ const UserPanel = ({ currentUser }) => {
             <Dropdown
               trigger={
                 <span>
-                  <Image src={currentUser.photoURL} spaced="right" avatar />
-                  {currentUser.displayName}
+                  <Image src={user.avatar} spaced="right" avatar />
+                  {user.username}
                 </span>
               }
               options={dropdownOptions()}
