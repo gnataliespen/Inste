@@ -1,51 +1,52 @@
-import React, { useEffect, useState } from "react";
-import { useHistory, Switch, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
+import Cookies from "js-cookie";
 
-import firebase from "./firebase";
 import Home from "./Components/Home";
 import Chat from "./Components/Chat";
 import Login from "./Components/Auth/Login";
 import Register from "./Components/Auth/Register";
 import Signout from "./Components/Auth/Signout";
 
-//Redux
-import { Provider } from "react-redux";
-import store from "./redux/store";
-import { setUser, clearUser } from "./redux/actions/index";
+import { loadUser } from "./redux/actions/user";
 
 import "semantic-ui-css/semantic.min.css";
 import "./App.css";
+import { connect } from "react-redux";
+import setAuthToken from "./util/setAuthToken";
 
-const App = () => {
+const App = ({ loadUser, loading, isAuth }) => {
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        store.dispatch(setUser(user));
-        history.push("/chat");
-      } else {
-        store.dispatch(clearUser());
-      }
-      setLoading(false);
-    });
-  }, [history]);
+    const token = Cookies.get("token");
+    console.log(token);
+    if (token) {
+      setAuthToken(token);
+    }
+    loadUser();
+    if (isAuth) {
+      history.push("/chat");
+    }
+  }, [loadUser, history, isAuth]);
 
   return loading ? (
     <Loader active />
   ) : (
-    <Provider store={store}>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/chat" component={Chat} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/signout" component={Signout} />
-      </Switch>
-    </Provider>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/chat" component={Chat} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/register" component={Register} />
+      <Route exact path="/signout" component={Signout} />
+    </Switch>
   );
 };
 
-export default App;
+const mapStateToProps = state => ({
+  loading: state.user.loading,
+  isAuth: state.user.isAuth
+});
+
+export default connect(mapStateToProps, { loadUser })(App);

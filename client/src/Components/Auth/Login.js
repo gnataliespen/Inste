@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import firebase from "../../firebase";
+import { loginUser } from "../../redux/actions/user";
+import { connect } from "react-redux";
 import {
   Grid,
   Form,
@@ -14,7 +15,7 @@ const initialState = {
   email: "",
   password: ""
 };
-const Login = () => {
+const Login = ({ loginUser }) => {
   const [login, setLogin] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
@@ -34,9 +35,7 @@ const Login = () => {
     setLoading(true);
     const { password, email } = login;
     try {
-      const res = await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password);
+      await loginUser({ password, email });
       setLogin(initialState);
     } catch (err) {
       console.log(err);
@@ -90,4 +89,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default connect(null, { loginUser })(Login);

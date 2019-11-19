@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import md5 from "md5";
 import {
   Grid,
@@ -10,7 +11,7 @@ import {
   Message
 } from "semantic-ui-react";
 
-import firebase from "../../firebase";
+import { register } from "../../redux/actions/user";
 
 const initialState = {
   username: "",
@@ -18,7 +19,7 @@ const initialState = {
   password: "",
   conPass: ""
 };
-const Register = () => {
+const Register = ({ register }) => {
   const [registration, setRegistration] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
@@ -45,31 +46,21 @@ const Register = () => {
       return;
     }
     try {
-      const createdUser = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
-      await createdUser.user.updateProfile({
-        displayName: username,
-        photoURL: `http://gravatar.com/avatar/${md5(email)}?d=identicon`
-      });
-      await saveUser(createdUser.user);
+      const userObj = {
+        email,
+        username,
+        password,
+        avatar: `http://gravatar.com/avatar/${md5(email)}?d=identicon`
+      };
+      console.log(userObj);
+      await register(userObj);
       setRegistration(initialState);
     } catch (err) {
       console.log(err.response);
     }
     setLoading(false);
   };
-  const saveUser = async user => {
-    await firebase
-      .database()
-      .ref("users")
-      .child(user.uid)
-      .set({
-        name: user.displayName,
-        avatar: user.photoURL
-      });
-    console.log("saved");
-  };
+
   return (
     <Grid textAlign="center" verticalAlign="middle" className="app">
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -139,4 +130,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default connect(null, { register })(Register);

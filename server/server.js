@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const http = require("http");
 const socketio = require("socket.io");
-
+const authRouther = require("./routes/authRouter");
 const app = express();
 const server = http.createServer(app);
 io = socketio(server);
@@ -20,6 +20,7 @@ app.use(cookieParser());
 dotenv.config();
 app.use(cors());
 
+app.use("/auth", authRouther);
 //Socket
 io.on("connection", socket => {
   console.log("connected");
