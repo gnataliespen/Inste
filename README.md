@@ -1,6 +1,6 @@
 # Inste 
-<em>This app is a work in progress</em>
-Fully functional online store that provides all the basic features of any ecommerce platform including order tacking, cart managment, secure checkout, and more.
+<em>This app is something im currently working on</em><br>
+A Real Time Chat Application built using Node.js, Express, Mongoose, Socket.io, & React.
 
 ## Getting Started
 After you clone this repo to your desktop, run npm install in the server and client directories to install all dependencies. 
@@ -24,6 +24,7 @@ Once the dependencies are installed, you can run npm start in the server directo
   <li>React</li>
   <li>Redux/react-redux</li>
   <li>Semantic ui React</li>
+   <li>Socket.io</li>
   <li>Node.js and express</li>
   <li>MongoDB and mongoose</li>  
 </ul>
