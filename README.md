@@ -1,5 +1,5 @@
-# Inste - <em>This app is a work in progress</em>
-
+# Inste 
+<em>This app is a work in progress</em>
 Fully functional online store that provides all the basic features of any ecommerce platform including order tacking, cart managment, secure checkout, and more.
 
 ## Getting Started
@@ -13,10 +13,8 @@ Once the dependencies are installed, you can run npm start in the server directo
   <li>Private messaging</li>
   <li>Upload and send pictures</li>
   <li>Send gifs from giphy</li>
-  <li>Create servers</li>
-  <li>Admin pannel for server owners that lists all server members, and gives access to admin features</li>
-  <li>Server admins can make servers private</li>
-  <li>Server admins can also ban users</li>
+  <li>Typing and presence indicators</li>
+  <li>Create public or private servers</li>
   <li>Jwt for authentication</li>
 </ul>
 
