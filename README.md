@@ -1,5 +1,5 @@
 # Inste 
-<em>This app is something im currently working on</em><br>
+<sm><em>Work in progress</em></sm> <br>
 A Real Time Chat Application built using Node.js, Express, Mongoose, Socket.io, & React.
 
 ## Getting Started
